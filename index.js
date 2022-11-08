@@ -30,14 +30,25 @@ const renderTasks = (items) => {
 let el = document.querySelector("#checkbox");
 console.log(el);
 
-el.addEventListener('change', (e) => { console.log(e.target.checked);
+el.addEventListener('change', (e) => { 
     const tasksList = document.querySelector('.todo__tasks');
     tasksList.innerHTML = "";
-    let queryParam = 'https://apps.kodim.cz/daweb/trening-api/apis/tasks-api/tasks?done=' + e.target.checked;
-    console.log(queryParam);
+    let queryParam = 'https://apps.kodim.cz/daweb/trening-api/apis/tasks-api/tasks';
+    if(e.target.checked)
+    {
+        queryParam = queryParam + '?done=' + !e.target.checked;
+        console.log(queryParam);
+    }
     fetch(queryParam)
     .then(r => r.json())
     .then((data) => renderTasks(data));
 });
 
+if (checkbox.checked == false) {
+    const tasksList = document.querySelector('.todo__tasks');
+    tasksList.innerHTML = "";
+    fetch('https://apps.kodim.cz/daweb/trening-api/apis/tasks-api/tasks')
+    .then(r => r.json())
+    .then((data) => renderTasks(data));
+}
 
